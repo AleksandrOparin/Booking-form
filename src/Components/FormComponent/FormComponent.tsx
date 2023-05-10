@@ -1,9 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import './FormComponent.css';
+import SelectComponent from '../SelectComponent/SelectComponent';
+import InputComponent from '../InputComponent/InputComponent';
+import TextAreaComponent from '../TextAreaComponent/TextAreaComponent';
 
-import IFormConfig from '../../Interfaces/IFormConfig';
+import './FormComponent.css';
 
 type FormData = {
     tower: string;
@@ -36,61 +38,63 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
         reset();
     };
 
+    const floorOptions = [...Array(25)].map((_, index) => String(index + 3));
+    const meetingRoomOptions = [...Array(10)].map((_, index) => String(index + 1));
+
     return (
         <form className={`form ${className}`} onSubmit={handleSubmit(onSubmit)}>
             <h1 className="form__title">{title}</h1>
             <div className="form__group">
-                <select id="tower" {...register('tower', { required: true })} className="form__select" placeholder="Башня">
-                    <option value="">Башня</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                </select>
+                <SelectComponent
+                    id="tower"
+                    name="tower"
+                    options={['A', 'B']}
+                    register={register}
+                    placeholder="Башня"
+                    required
+                />
 
-                <select id="floor" {...register('floor', { required: true })} className="form__select" placeholder="Номер этажа">
-                    <option value="">Этаж</option>
-                    {[...Array(25)].map((_, index) => (
-                        <option key={index} value={String(index + 3)}>
-                            {index + 3}
-                        </option>
-                    ))}
-                </select>
+                <SelectComponent
+                    id="floor"
+                    name="floor"
+                    options={floorOptions}
+                    register={register}
+                    placeholder="Номер этажа"
+                    required
+                />
 
-                <select
+                <SelectComponent
                     id="meetingRoom"
-                    {...register('meetingRoom', { required: true })}
-                    className="form__select"
+                    name="meetingRoom"
+                    options={meetingRoomOptions}
+                    register={register}
                     placeholder="Номер переговорной"
-                >
-                    <option value="">Номер переговорной</option>
-                    {[...Array(10)].map((_, index) => (
-                        <option key={index} value={String(index + 1)}>
-                            {index + 1}
-                        </option>
-                    ))}
-                </select>
+                    required
+                />
             </div>
             {(errors.tower || errors.floor || errors.meetingRoom) && (
-                <span className="form__error">Эти поля обязательны</span>
+                <span className="form__error">Укажите башню, номер этажа и номер переговорной</span>
             )}
 
             <div className="form__group">
-                <input
-                    type="date"
+                <InputComponent
                     id="date"
-                    {...register('date', { required: true })}
-                    className="form__input"
+                    name="date"
+                    type="date"
+                    register={register}
                     placeholder="Выберите дату"
+                    required
                 />
             </div>
             {errors.date && <span className="form__error">Укажите дату</span>}
 
             <div className="form__group">
-        <textarea
-            id="comment"
-            {...register('comment')}
-            className="form__textarea"
-            placeholder="Enter your comment"
-        />
+                <TextAreaComponent
+                    id="comment"
+                    name="comment"
+                    register={register}
+                    placeholder="Введите ваш комментарий"
+                />
             </div>
 
             <div className="form__group form__group--buttons">
