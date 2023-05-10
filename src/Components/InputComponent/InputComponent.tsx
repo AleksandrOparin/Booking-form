@@ -4,6 +4,7 @@ interface InputComponentProps {
     id: string;
     name: string;
     type?: string;
+    className: string;
     placeholder: string;
     register: any;
     required?: boolean;
@@ -11,18 +12,19 @@ interface InputComponentProps {
 
 const InputComponent: React.FC<InputComponentProps> = (
     {
-       id,
-       name,
-       type = 'text',
-       placeholder,
-       register,
-       required = false,
+        id,
+        name,
+        type = 'text',
+        className,
+        placeholder,
+        register,
+        required = false,
    }) => (
     <input
         type={type}
         id={id}
         {...register(name, { required })}
-        className="form__input"
+        className={`input ${className}`}
         placeholder={placeholder}
     />
 );

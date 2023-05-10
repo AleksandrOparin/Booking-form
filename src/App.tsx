@@ -1,4 +1,5 @@
 import './App.css'
+import 'react-datepicker/dist/react-datepicker.css';
 
 import BookingForm from './Views/BookingForm/BookingForm';
 

@@ -27,7 +27,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
         reset,
         formState: { errors, isValid },
     } = useForm<FormData>({
-        mode: 'onChange', // Enable validation on each input change
+        mode: 'onChange',
     });
 
     const onSubmit = (data: FormData) => {
@@ -41,6 +41,8 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
     const floorOptions = [...Array(25)].map((_, index) => String(index + 3));
     const meetingRoomOptions = [...Array(10)].map((_, index) => String(index + 1));
 
+    const meetingTimeOptions = [...Array(23)].map((_, index) => `${index > 9 ? index : '0' + index}:00 - ${index+1 > 9 ? index+1 : '0' + index}:00`);
+
     return (
         <form className={`form ${className}`} onSubmit={handleSubmit(onSubmit)}>
             <h1 className="form__title">{title}</h1>
@@ -50,6 +52,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
                     name="tower"
                     options={['A', 'B']}
                     register={register}
+                    className="form__input-field"
                     placeholder="Башня"
                     required
                 />
@@ -59,6 +62,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
                     name="floor"
                     options={floorOptions}
                     register={register}
+                    className="form__input-field"
                     placeholder="Номер этажа"
                     required
                 />
@@ -68,6 +72,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
                     name="meetingRoom"
                     options={meetingRoomOptions}
                     register={register}
+                    className="form__input-field"
                     placeholder="Номер переговорной"
                     required
                 />
@@ -82,6 +87,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
                     name="date"
                     type="date"
                     register={register}
+                    className="form__input-field"
                     placeholder="Выберите дату"
                     required
                 />
@@ -89,20 +95,33 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
             {errors.date && <span className="form__error">Укажите дату</span>}
 
             <div className="form__group">
+                <SelectComponent
+                    id="meetingTime"
+                    name="meetingTime"
+                    options={meetingTimeOptions}
+                    register={register}
+                    className="form__input-field"
+                    placeholder="Время"
+                    required
+                />
+            </div>
+
+            <div className="form__group">
                 <TextAreaComponent
                     id="comment"
                     name="comment"
                     register={register}
+                    className="form__input-field"
                     placeholder="Введите ваш комментарий"
                 />
             </div>
 
             <div className="form__group form__group--buttons">
                 <button type="submit" disabled={!isValid} className="form__button">
-                    Log Data
+                    Забронировать
                 </button>
                 <button type="button" onClick={handleClear} className="form__button">
-                    Clear
+                    Очистить
                 </button>
             </div>
         </form>
