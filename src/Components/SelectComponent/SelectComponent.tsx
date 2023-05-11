@@ -1,49 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, forwardRef, ForwardedRef } from 'react';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
 import './SelectComponent.css';
 
+import SelectOptionComponent from '../SelectOptionComponent/SelectOptionComponent';
+
 interface SelectComponentProps {
-    id: string;
-    options: string[];
-    className: string;
+    data: string[];
     placeholder: string;
-    onSelect: (value: string) => void;
 }
 
-const SelectComponent: React.FC<SelectComponentProps> = (
-    {
-         id,
-         options,
-         className,
-         placeholder,
-         onSelect,
-     }) => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+const SelectComponent: React.FC<SelectComponentProps> = forwardRef(
+    ({ data, placeholder }, ref: ForwardedRef<HTMLDivElement>) => {
+        const [values, setValues] = useState<string[]>([]);
+        const [selected, setSelected] = useState<string>('');
+        const [open, setOpen] = useState<boolean>(false);
 
-    const handleOptionSelect = (event: React.MouseEvent<HTMLDivElement>) => {
-        const value = event.currentTarget.textContent;
-        setSelectedOption(value);
-        onSelect(value || ''); // Pass an empty string if value is null
-    };
+        useEffect(() => {
+            setValues(data);
+        }, [data]);
 
-    return (
-        <div id={id} className={`select ${className}`}>
-            <div className="select__placeholder" onClick={handleOptionSelect}>
-                {selectedOption || placeholder}
+        const handleToggle = () => {
+            setOpen(!open);
+        };
+
+        const handleSelect = (value: string) => {
+            setSelected(value);
+            setOpen(false);
+        };
+
+        return (
+            <div className="select" ref={ref}>
+                <div className="select__text select__text_dark" onClick={handleToggle}>
+                    {selected ? selected : placeholder}
+                    {open ? <BiChevronUp size={20} /> : <BiChevronDown size={20} />}
+                </div>
+
+                {open && (
+                    <ul className="select__options">
+                        {values?.map((value) => (
+                            <SelectOptionComponent
+                                key={value}
+                                value={value}
+                                selected={selected}
+                                onSelect={handleSelect}
+                                onOptionClick={handleToggle}
+                            />
+                        ))}
+                    </ul>
+                )}
             </div>
-            <div className="select__options">
-                {options.map((option, index) => (
-                    <div
-                        key={index}
-                        className={`select__option ${selectedOption === option ? 'selected' : ''}`}
-                        onClick={handleOptionSelect}
-                    >
-                        {option}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+        );
+    }
+);
 
 export default SelectComponent;

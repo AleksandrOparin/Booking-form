@@ -10,8 +10,9 @@ import './FormComponent.css';
 type FormData = {
     tower: string;
     floor: string;
-    meetingRoom: string;
+    room: string;
     date: string;
+    timeInterval: string;
     comment: string;
 };
 
@@ -41,43 +42,44 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
     const floorOptions = [...Array(25)].map((_, index) => String(index + 3));
     const meetingRoomOptions = [...Array(10)].map((_, index) => String(index + 1));
 
-    const meetingTimeOptions = [...Array(24)].map((_, index) => `${index > 9 ? index : '0' + index}:00 - ${index+1 > 9 ? ((index+1) % 24) : '0' + (index+1)}:00`);
+    const meetingTimeOptions = [...Array(24)].map(
+        (_, index) =>
+            `${index > 9 ? index : '0' + index}:00 - ${
+                index + 1 > 9 ? ((index + 1) % 24) : '0' + (index + 1)
+            }:00`
+    );
+
+    const towerOptions = ['A', 'B'];
+    const placeholderTower = 'Башня';
+    const placeholderFloor = 'Номер этажа';
+    const placeholderMeetingRoom = 'Номер переговорной';
+    const placeholderDate = 'Выберите дату';
+    const placeholderTime = 'Выберите время';
+    const placeholderComment = 'Введите ваш комментарий';
 
     return (
         <form className={`form ${className}`} onSubmit={handleSubmit(onSubmit)}>
             <h1 className="form__title">{title}</h1>
             <div className="form__group">
                 <SelectComponent
-                    id="tower"
-                    // name="tower"
-                    options={['A', 'B']}
-                    // register={register}
-                    className="form__input-field"
-                    placeholder="Башня"
-                    // required
+                    data={towerOptions}
+                    placeholder={placeholderTower}
+                    {...register('tower', { required: true })}
                 />
 
                 <SelectComponent
-                    id="floor"
-                    name="floor"
-                    options={floorOptions}
-                    register={register}
-                    className="form__input-field"
-                    placeholder="Номер этажа"
-                    required
+                    data={floorOptions}
+                    placeholder={placeholderFloor}
+                    {...register('floor', { required: true })}
                 />
 
                 <SelectComponent
-                    id="meetingRoom"
-                    name="meetingRoom"
-                    options={meetingRoomOptions}
-                    register={register}
-                    className="form__input-field"
-                    placeholder="Номер переговорной"
-                    required
+                    data={meetingRoomOptions}
+                    placeholder={placeholderMeetingRoom}
+                    {...register('room', { required: true })}
                 />
             </div>
-            {(errors.tower || errors.floor || errors.meetingRoom) && (
+            {(errors.tower || errors.floor || errors.room) && (
                 <span className="form__error">Укажите башню, номер этажа и номер переговорной</span>
             )}
 
@@ -88,28 +90,23 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
                     type="date"
                     register={register}
                     className="form__input-field"
-                    placeholder="Выберите дату"
+                    placeholder={placeholderDate}
                     required
                 />
                 <SelectComponent
-                    id="meetingTime"
-                    name="meetingTime"
-                    options={meetingTimeOptions}
-                    register={register}
-                    className="form__input-field"
-                    placeholder="Выберите время"
-                    required
+                    data={meetingTimeOptions}
+                    placeholder={placeholderTime}
+                    {...register('timeInterval', { required: true })}
                 />
             </div>
-            {errors.date && <span className="form__error">Укажите корректные дату и время</span>}
-
+            {errors.date && <span className="form__error">Укажите корректную дату и время</span>}
             <div className="form__group">
                 <TextAreaComponent
                     id="comment"
                     name="comment"
                     register={register}
                     className="form__input-field"
-                    placeholder="Введите ваш комментарий"
+                    placeholder={placeholderComment}
                 />
             </div>
 
