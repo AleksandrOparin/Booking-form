@@ -2,6 +2,12 @@
 
 }
 
-.select option {
-    width: 100%;
+.select__option {
+    background-color: #4c4848;
+    border: none;
+}
+
+.select__option:hover,
+.select__option:checked {
+    background-color: #7c6f6f;
 }

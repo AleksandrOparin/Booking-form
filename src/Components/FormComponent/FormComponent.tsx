@@ -41,7 +41,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
     const floorOptions = [...Array(25)].map((_, index) => String(index + 3));
     const meetingRoomOptions = [...Array(10)].map((_, index) => String(index + 1));
 
-    const meetingTimeOptions = [...Array(23)].map((_, index) => `${index > 9 ? index : '0' + index}:00 - ${index+1 > 9 ? index+1 : '0' + index}:00`);
+    const meetingTimeOptions = [...Array(24)].map((_, index) => `${index > 9 ? index : '0' + index}:00 - ${index+1 > 9 ? ((index+1) % 24) : '0' + (index+1)}:00`);
 
     return (
         <form className={`form ${className}`} onSubmit={handleSubmit(onSubmit)}>
@@ -49,12 +49,12 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
             <div className="form__group">
                 <SelectComponent
                     id="tower"
-                    name="tower"
+                    // name="tower"
                     options={['A', 'B']}
-                    register={register}
+                    // register={register}
                     className="form__input-field"
                     placeholder="Башня"
-                    required
+                    // required
                 />
 
                 <SelectComponent
@@ -83,28 +83,25 @@ const FormComponent: React.FC<FormComponentProps> = ({ title, className }) => {
 
             <div className="form__group">
                 <InputComponent
-                    id="date"
-                    name="date"
+                    id="meetingDate"
+                    name="meetingDate"
                     type="date"
                     register={register}
                     className="form__input-field"
                     placeholder="Выберите дату"
                     required
                 />
-            </div>
-            {errors.date && <span className="form__error">Укажите дату</span>}
-
-            <div className="form__group">
                 <SelectComponent
                     id="meetingTime"
                     name="meetingTime"
                     options={meetingTimeOptions}
                     register={register}
                     className="form__input-field"
-                    placeholder="Время"
+                    placeholder="Выберите время"
                     required
                 />
             </div>
+            {errors.date && <span className="form__error">Укажите корректные дату и время</span>}
 
             <div className="form__group">
                 <TextAreaComponent

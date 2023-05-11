@@ -1,35 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import './SelectComponent.css';
 
 interface SelectComponentProps {
     id: string;
-    name: string;
     options: string[];
-    register: any;
     className: string;
     placeholder: string;
-    required?: boolean;
+    onSelect: (value: string) => void;
 }
 
 const SelectComponent: React.FC<SelectComponentProps> = (
     {
          id,
-         name,
          options,
-         register,
          className,
          placeholder,
-         required = false,
-     }) => (
-    <select id={id} {...register(name, { required })} className={`select ${className}`} placeholder={placeholder}>
-        <option value="">{placeholder}</option>
-        {options.map((option, index) => (
-            <option key={index} value={option}>
-                {option}
-            </option>
-        ))}
-    </select>
-);
+         onSelect,
+     }) => {
+    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+    const handleOptionSelect = (event: React.MouseEvent<HTMLDivElement>) => {
+        const value = event.currentTarget.textContent;
+        setSelectedOption(value);
+        onSelect(value || ''); // Pass an empty string if value is null
+    };
+
+    return (
+        <div id={id} className={`select ${className}`}>
+            <div className="select__placeholder" onClick={handleOptionSelect}>
+                {selectedOption || placeholder}
+            </div>
+            <div className="select__options">
+                {options.map((option, index) => (
+                    <div
+                        key={index}
+                        className={`select__option ${selectedOption === option ? 'selected' : ''}`}
+                        onClick={handleOptionSelect}
+                    >
+                        {option}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 export default SelectComponent;
