@@ -48,53 +48,54 @@ const FormComponent: React.FC = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                <label>Tower Name:</label>
                 <SelectComponent
                     {...register('towerName', { required: true })}
                     options={nameOptions}
                     value={watch('towerName') || ''}
+                    placeholder={'Выберите башню'}
                     onChange={(value) => setValue('towerName', value)}
                 />
                 {errors.towerName && <span>This field is required.</span>}
             </div>
             <div>
-                <label>Floor:</label>
                 <SelectComponent
                     {...register('floor', { required: true })}
                     options={floorOptions}
                     value={watch('floor') || ''}
+                    placeholder={'Выберите этаж'}
                     onChange={(value) => setValue('floor', value)}
                 />
                 {errors.floor && <span>This field is required.</span>}
             </div>
             <div>
-                <label>Room:</label>
                 <SelectComponent
                     {...register('room', { required: true })}
                     options={roomOptions}
                     value={watch('room') || ''}
+                    placeholder={'Выберите комнату'}
                     onChange={(value) => setValue('room', value)}
                 />
                 {errors.room && <span>This field is required.</span>}
             </div>
             <div>
-                <label>Date:</label>
                 <input type="date" min={currentDate} {...register('date', { required: true })} />
                 {errors.date && <span>This field is required.</span>}
             </div>
             <div>
-                <label>Time Interval:</label>
                 <SelectComponent
                     {...register('timeInterval', { required: true })}
                     options={timeOptions}
                     value={watch('timeInterval') || ''}
+                    placeholder={'Выберите время'}
                     onChange={(value) => setValue('timeInterval', value)}
                 />
                 {errors.timeInterval && <span>This field is required.</span>}
             </div>
             <div>
-                <label>Comment:</label>
-                <textarea {...register('comment')} />
+                <textarea
+                    {...register('comment')}
+                    placeholder={'Комментарий'}
+                />
             </div>
             <div>
                 <button
