@@ -4,13 +4,8 @@
     gap: 1rem;
 }
 
-.form__group {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-}
-
 .form__group--buttons {
+    display: flex;
     justify-content: center;
 }
 

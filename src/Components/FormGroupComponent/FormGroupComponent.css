@@ -1,0 +1,18 @@
+.form__group {
+    gap: 1rem;
+}
+
+.form-group__fields {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.form-group__error {
+    color: red;
+}
+
+
+.error-text {
+    color: red;
+}

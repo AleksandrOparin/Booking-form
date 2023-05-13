@@ -1,15 +1,21 @@
 import React from 'react';
 
-interface TextAreaComponentProps {
-    id: string;
-    name: string;
-    className: string;
-    placeholder: string;
-    register: any;
-}
+import TextAreaComponentProps from './TextAreaComponentProps';
+import './TextAreaComponent.css';
 
-const TextAreaComponent: React.FC<TextAreaComponentProps> = ({ id, name, className, placeholder, register }) => (
-    <textarea id={id} {...register(name)} className={`textarea ${className}`} placeholder={placeholder} />
+const TextAreaComponent: React.FC<TextAreaComponentProps> = (
+    {
+        name,
+        register,
+        required = false,
+        className,
+        placeholder
+    }) => (
+    <textarea
+        {...register(name, { required })}
+        className={`textarea ${className}`}
+        placeholder={placeholder}
+    />
 );
 
 export default TextAreaComponent;

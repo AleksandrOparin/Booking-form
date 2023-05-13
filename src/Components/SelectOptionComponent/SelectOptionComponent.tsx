@@ -1,15 +1,9 @@
 import React from 'react';
 
+import SelectOptionComponentProps from './SelectOptionComponentProps';
 import './SelectOptionComponent.css';
 
-interface SelectOptionProps {
-    value: string;
-    selected: string;
-    onSelect: (value: string) => void;
-    onOptionClick: () => void;
-}
-
-const SelectOptionComponent: React.FC<SelectOptionProps> = ({ value, selected, onSelect, onOptionClick }) => {
+const SelectOptionComponent: React.FC<SelectOptionComponentProps> = ({ value, selected, onSelect, onOptionClick }) => {
     const handleClick = () => {
         if (value?.toLowerCase() !== selected.toLowerCase()) {
             onSelect(value);
