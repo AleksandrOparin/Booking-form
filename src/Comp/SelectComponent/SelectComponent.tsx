@@ -1,20 +1,14 @@
 import React, { useState, forwardRef } from 'react';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
+import SelectComponentProps from './SelectComponentProps';
 import './SelectComponent.css';
+import ListComponent from '../ListComponent/ListComponent';
 
-export interface Option {
-    value: string;
-    label: string;
-}
-
-interface SelectProps {
-    options: Option[];
-    value: string;
-    placeholder: string;
-    onChange: (value: string) => void;
-}
-
-const SelectComponent: React.ForwardRefRenderFunction<any, SelectProps> = ({ options, value, placeholder, onChange }, ref) => {
+const SelectComponent: React.ForwardRefRenderFunction<HTMLDivElement, SelectComponentProps> = (
+    { options, value, placeholder, onChange },
+    ref
+) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = () => {
@@ -27,22 +21,20 @@ const SelectComponent: React.ForwardRefRenderFunction<any, SelectProps> = ({ opt
     };
 
     return (
-        <div className={`select ${isOpen ? 'open' : ''}`} ref={ref}>
-            <div className="selected__value" onClick={handleToggle}>
-                {options.find((option) => option.value === value)?.label || placeholder}
+        <div className="select input input_dark-theme" ref={ref}>
+            <div className="select__text" onClick={handleToggle}>
+                {value ? options.find((option) => option.value === value)?.label : placeholder}
+                {isOpen ? <BiChevronUp size={20} /> : <BiChevronDown size={20} />}
             </div>
             {isOpen && (
-                <ul className="select__options">
-                    {options.map((option) => (
-                        <li
-                            key={option.value}
-                            className={`select__option select-option ${option.value === value ? 'select-option_selected' : ''}`}
-                            onClick={() => handleOptionSelect(option.value)}
-                        >
-                            {option.label}
-                        </li>
-                    ))}
-                </ul>
+                <ListComponent
+                    listClassName="select__options"
+                    itemClassName="select__option select-option"
+                    selectedClassName="select-option_selected"
+                    selectedItem={value}
+                    items={options}
+                    onItemClick={(optionValue) => handleOptionSelect(optionValue)}
+                />
             )}
         </div>
     );

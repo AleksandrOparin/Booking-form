@@ -1,9 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import SelectComponent, { Option } from '../SelectComponent/SelectComponent';
+import FormComponentProps from './FormComponentProps';
+import './FormComponent.css';
 
-const FormComponent: React.FC = () => {
+import { Option } from '../SelectComponent/SelectComponentProps';
+import SelectComponent from '../SelectComponent/SelectComponent';
+import InputComponent from '../InputComponent/InputComponent';
+
+const FormComponent: React.FC<FormComponentProps> = ({ title = '', className = '' }) => {
     const {
         handleSubmit,
         reset,
@@ -43,70 +48,99 @@ const FormComponent: React.FC = () => {
         reset();
     };
 
-    const currentDate = new Date().toISOString().split('T')[0];
+    const currentDate = new Date();
+    const minDate = currentDate.toISOString().split('T')[0];
+    const maxDate = new Date(currentDate.getTime() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-                <SelectComponent
-                    {...register('towerName', { required: true })}
-                    options={nameOptions}
-                    value={watch('towerName') || ''}
-                    placeholder={'Выберите башню'}
-                    onChange={(value) => setValue('towerName', value)}
-                />
-                {errors.towerName && <span>This field is required.</span>}
+        <form className={`form ${className}`} onSubmit={handleSubmit(onSubmit)}>
+            <div className="form__header">
+                <h1 className="form__title">{title}</h1>
             </div>
-            <div>
-                <SelectComponent
-                    {...register('floor', { required: true })}
-                    options={floorOptions}
-                    value={watch('floor') || ''}
-                    placeholder={'Выберите этаж'}
-                    onChange={(value) => setValue('floor', value)}
-                />
-                {errors.floor && <span>This field is required.</span>}
+
+            <div className="form__content">
+                <div className="form__group form-group">
+                    <div className="form-group__fields">
+                        <SelectComponent
+                            {...register('towerName', { required: true })}
+                            options={nameOptions}
+                            value={watch('towerName') || ''}
+                            placeholder={'Выберите башню'}
+                            onChange={(value) => setValue('towerName', value)}
+                        />
+
+                        <SelectComponent
+                            {...register('floor', { required: true })}
+                            options={floorOptions}
+                            value={watch('floor') || ''}
+                            placeholder={'Выберите этаж'}
+                            onChange={(value) => setValue('floor', value)}
+                        />
+
+                        <SelectComponent
+                            {...register('room', { required: true })}
+                            options={roomOptions}
+                            value={watch('room') || ''}
+                            placeholder={'Выберите комнату'}
+                            onChange={(value) => setValue('room', value)}
+                        />
+                    </div>
+
+                    <div className="form-group__error">
+                        {errors.towerName && errors.floor && errors.room && <span>Некорректные данные переговорной</span>}
+                    </div>
+                </div>
+
+                <div className="form__group">
+                    <div className="form-group__fields">
+                        <InputComponent
+                            {...register('date', { required: true })}
+                            type="date"
+                            minValue={minDate}
+                            maxValue={maxDate}
+                            className="input_dark-theme"
+                        />
+
+                        <SelectComponent
+                            {...register('timeInterval', { required: true })}
+                            options={timeOptions}
+                            value={watch('timeInterval') || ''}
+                            placeholder={'Выберите время'}
+                            onChange={(value) => setValue('timeInterval', value)}
+                        />
+                    </div>
+
+                    <div className="form-group__error">
+                        {errors.date && errors.timeInterval && <span>Некорректное время</span>}
+                    </div>
+                </div>
+
+                <div className="form__group">
+                    <div className="form-group__fields">
+                        <textarea
+                            {...register('comment')}
+                            placeholder={'Комментарий'}
+                        />
+                    </div>
+
+                    <div className="form-group__error">
+
+                    </div>
+                </div>
             </div>
-            <div>
-                <SelectComponent
-                    {...register('room', { required: true })}
-                    options={roomOptions}
-                    value={watch('room') || ''}
-                    placeholder={'Выберите комнату'}
-                    onChange={(value) => setValue('room', value)}
-                />
-                {errors.room && <span>This field is required.</span>}
-            </div>
-            <div>
-                <input type="date" min={currentDate} {...register('date', { required: true })} />
-                {errors.date && <span>This field is required.</span>}
-            </div>
-            <div>
-                <SelectComponent
-                    {...register('timeInterval', { required: true })}
-                    options={timeOptions}
-                    value={watch('timeInterval') || ''}
-                    placeholder={'Выберите время'}
-                    onChange={(value) => setValue('timeInterval', value)}
-                />
-                {errors.timeInterval && <span>This field is required.</span>}
-            </div>
-            <div>
-                <textarea
-                    {...register('comment')}
-                    placeholder={'Комментарий'}
-                />
-            </div>
-            <div>
-                <button
-                    type="submit"
-                    disabled={!watch('towerName') || !watch('floor') || !watch('room') || !watch('date') || !watch('timeInterval')}
-                >
-                    Submit
-                </button>
-                <button type="button" onClick={handleReset}>
-                    Clear
-                </button>
+
+            <div className="form__footer">
+                <div className="form__buttons">
+                    <button
+                        type="submit"
+                        disabled={!watch('towerName') || !watch('floor') || !watch('room') || !watch('date') || !watch('timeInterval')}
+                    >
+                        Submit
+                    </button>
+                    <button type="button" onClick={handleReset}>
+                        Clear
+                    </button>
+                </div>
             </div>
         </form>
     );
