@@ -1,36 +1,76 @@
-import IFormData from '../../Interfaces/IFormData';
+import FormComponentProps from '../../Components/FormComponent/FormComponentProps';
+import { Option } from '../../Components/SelectComponent/SelectComponentProps';
 
 import SelectComponent from '../../Components/SelectComponent/SelectComponent';
 import InputComponent from '../../Components/InputComponent/InputComponent';
-import TextAreaComponent from '../../Components/TextAreaComponent/TextAreaComponent';
+import TextAreaComponent from '../../Components/TextareaComponent/TextareaComponent';
 
-export const BookingFormData: IFormData = {
+// Tower
+const towerOptions: Option[] = [
+    { value: 'A', label: 'A' },
+    { value: 'B', label: 'B' },
+];
+
+// Floor
+const floorOptions: Option[] = Array.from({ length: 25 }, (_, index) => ({
+    value: `${index + 3}`,
+    label: `${index + 3}`,
+}));
+
+// Room
+const roomOptions: Option[] = Array.from({ length: 10 }, (_, index) => ({
+    value: `${index + 1}`,
+    label: `${index + 1}`,
+}));
+
+// Date
+const currentDate = new Date();
+const minDate = currentDate.toISOString().split('T')[0];
+const maxDate = new Date(currentDate.getTime() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+// Time interval
+const timeOptions: Option[] = Array.from({ length: 25 }, (_, index) => ({
+    value: `${index}`,
+    label: `${index}:00 - ${(index + 1) % 24}:00`,
+}));
+
+
+// Data
+export const BookingFormData: FormComponentProps = {
+    title: 'Забронировать переговорную',
+    className: 'booking-form',
     groups: [
         {
             fields: [
                 {
-                    name: 'tower',
-                    component: SelectComponent,
-                    options: ['A', 'B'],
-                    placeholder: 'Башня',
-                    width: 100,
+                    type: 'select',
                     required: true,
+                    component: SelectComponent,
+                    props: {
+                        name: 'towerName',
+                        options: towerOptions,
+                        placeholder: 'Выберите башню',
+                    },
                 },
                 {
-                    name: 'floor',
-                    component: SelectComponent,
-                    options: [...Array(25)].map((_, index) => String(index + 3)),
-                    placeholder: 'Номер этажа',
-                    width: 120,
+                    type: 'select',
                     required: true,
+                    component: SelectComponent,
+                    props: {
+                        name: 'floor',
+                        options: floorOptions,
+                        placeholder: 'Выберите этаж',
+                    },
                 },
                 {
-                    name: 'room',
-                    component: SelectComponent,
-                    options: [...Array(10)].map((_, index) => String(index + 1)),
-                    placeholder: 'Номер переговорной',
-                    width: 180,
+                    type: 'select',
                     required: true,
+                    component: SelectComponent,
+                    props: {
+                        name: 'room',
+                        options: roomOptions,
+                        placeholder: 'Выберите комнату',
+                    },
                 },
             ],
             error: 'Некорректные данные переговорной',
@@ -38,35 +78,45 @@ export const BookingFormData: IFormData = {
         {
             fields: [
                 {
-                    name: 'date',
-                    component: InputComponent,
-                    type: 'date',
-                    placeholder: 'Выберите дату',
+                    type: 'input',
                     required: true,
+                    component: InputComponent,
+                    props: {
+                        name: 'date',
+                        type: 'date',
+                        options: towerOptions,
+                        placeholder: 'Выберите башню',
+                        minValue: minDate,
+                        maxValue: maxDate,
+                        className: 'input_dark-theme',
+                    },
                 },
                 {
-                    name: 'timeInterval',
-                    component: SelectComponent,
-                    options: [...Array(24)].map(
-                        (_, index) =>
-                            `${index > 9 ? index : '0' + index}:00 - ${index + 1 > 9 ? ((index + 1) % 24) : '0' + (index + 1)}:00`
-                    ),
-                    placeholder: 'Выберите время',
-                    width: 160,
+                    type: 'select',
                     required: true,
+                    component: SelectComponent,
+                    props: {
+                        name: 'timeInterval',
+                        options: timeOptions,
+                        placeholder: 'Выберите время',
+                    },
                 },
             ],
-            error: 'Некорректная дата'
+            error: 'Некорректное время',
         },
         {
             fields: [
                 {
-                    name: 'comment',
-                    component: TextAreaComponent,
-                    placeholder: 'Введите комментарий',
+                    type: 'textarea',
                     required: false,
+                    component: TextAreaComponent,
+                    props: {
+                        name: 'comment',
+                        placeholder: 'Комментарий',
+                        className: 'input input_dark-theme',
+                    },
                 }
-            ],
+            ]
         }
     ],
 };

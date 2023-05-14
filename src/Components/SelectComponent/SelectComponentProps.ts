@@ -1,9 +1,11 @@
-export default interface SelectComponentProps {
-    name: string;
-    register: any;
-    required?: boolean;
+export interface Option {
+    value: string;
+    label: string;
+}
 
-    data: string[];
+export default interface SelectComponentProps {
+    options: Option[];
+    value: string;
     placeholder: string;
-    width: number;
+    onChange: (value: string) => void;
 }

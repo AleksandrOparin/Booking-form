@@ -4,9 +4,9 @@ import ListComponentProps from './ListComponentProps';
 import './ListComponent.css';
 
 const ListComponent = forwardRef<HTMLUListElement, ListComponentProps>(
-    ({ listClassName, itemClassName, selectedItem, selectedClassName, items, onItemClick }, ref) => {
+    ({ listClassName, itemClassName, selectedItem, selectedClassName, items, onItemClick }, _ref) => {
         return (
-            <ul className={`list ${listClassName}`} ref={ref}>
+            <ul className={`list ${listClassName}`}>
                 {items.map((item) => (
                     <li
                         key={item.value}

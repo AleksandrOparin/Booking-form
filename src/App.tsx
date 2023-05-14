@@ -1,6 +1,6 @@
 import './App.css'
 
-import BookingForm from './V/BookingForm/BookingForm';
+import BookingForm from './Views/BookingForm/BookingForm';
 
 function App() {
     return (

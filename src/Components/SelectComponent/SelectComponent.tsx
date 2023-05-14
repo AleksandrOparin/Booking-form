@@ -1,61 +1,41 @@
-import React, { useEffect, useState, forwardRef, ForwardedRef } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
 import SelectComponentProps from './SelectComponentProps';
 import './SelectComponent.css';
+import ListComponent from '../ListComponent/ListComponent';
 
-import SelectOptionComponent from '../SelectOptionComponent/SelectOptionComponent';
-import InputComponent from '../InputComponent/InputComponent';
+const SelectComponent: React.ForwardRefRenderFunction<HTMLDivElement, SelectComponentProps> = (
+    { options, value, placeholder, onChange }, ref) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-const SelectComponent: React.FC<SelectComponentProps> = forwardRef(
-    ({ name, register, required = false, data, placeholder, width }, ref: ForwardedRef<HTMLDivElement>) => {
-        const [values, setValues] = useState<string[]>([]);
-        const [selected, setSelected] = useState<string>('');
-        const [open, setOpen] = useState<boolean>(false);
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
+    };
 
-        useEffect(() => {
-            setValues(data);
-        }, [data]);
+    const handleOptionSelect = (optionValue: string) => {
+        onChange(optionValue);
+        setIsOpen(false);
+    };
 
-        const handleToggle = (): void => {
-            setOpen(!open);
-        };
-
-        const handleSelect = (value: string): void => {
-            setSelected(value);
-            setOpen(false);
-        };
-
-        return (
-            <div className="select" ref={ref}>
-                <InputComponent
-                    name={name}
-                    width={width}
-                    register={register}
-                    className="form__input-field"
-                    placeholder={placeholder}
-                    required={required}
-                    onClick={handleToggle}
-                    value={selected}
-                    readonly={true}
-                />
-
-                {open && (
-                    <ul className="select__options">
-                        {values?.map((value) => (
-                            <SelectOptionComponent
-                                key={value}
-                                value={value}
-                                selected={selected}
-                                onSelect={handleSelect}
-                                onOptionClick={handleToggle}
-                            />
-                        ))}
-                    </ul>
-                )}
+    return (
+        <div className="select input input_dark-theme"ref={ref}>
+            <div className="select__text" onClick={handleToggle}>
+                {value ? options.find((option) => option.value === value)?.label : placeholder}
+                {isOpen ? <BiChevronUp size={20} /> : <BiChevronDown size={20} />}
             </div>
-        );
-    }
-);
+            {isOpen && (
+                <ListComponent
+                    listClassName="select__options"
+                    itemClassName="select__option select-option"
+                    selectedClassName="select-option_selected"
+                    selectedItem={value}
+                    items={options}
+                    onItemClick={(optionValue) => handleOptionSelect(optionValue)}
+                />
+            )}
+        </div>
+    );
+};
 
-export default SelectComponent;
+export default forwardRef(SelectComponent);

@@ -1,31 +1,29 @@
-import React from 'react';
+import React, { forwardRef, Ref } from 'react';
 
 import InputComponentProps from './InputComponentProps';
 import './InputComponent.css';
 
-const InputComponent: React.FC<InputComponentProps> = (
-    {
-        name,
-        register,
-        required = false,
-        type = 'text',
-        className,
-        placeholder,
-        width,
-        onClick,
-        readonly = false,
-        value
-   }) => (
-    <input
-        type={type}
-        {...register(name, { required })}
-        className={`input ${className}`}
-        placeholder={placeholder}
-        style={{width: width}}
-        onClick={onClick}
-        readOnly={readonly}
-        value={value}
-    />
+const InputComponent: React.FC<InputComponentProps> = forwardRef(
+    (
+        {
+            register,
+            type = 'text',
+            className,
+            placeholder,
+            minValue,
+            maxValue,
+        },
+        _ref: Ref<HTMLInputElement>
+    ) => (
+        <input
+            {...register}
+            type={type}
+            className={`input ${className}`}
+            placeholder={placeholder}
+            min={minValue}
+            max={maxValue}
+        />
+    )
 );
 
 export default InputComponent;
