@@ -1,0 +1,80 @@
+#root {
+    height: 100vh;
+}
+
+.content {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.container {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Start header */
+
+.header {
+    font-family: SansSerif,sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    position: sticky;
+    z-index: 1030;
+    top: 0;
+    transition: transform.3s ease,-webkit-transform.3s ease
+}
+
+@media(min-width: 375px) {
+    .header {
+        font-size:13px;
+        line-height: 19px
+    }
+}
+
+@media(min-width: 600px) {
+    .header {
+        font-size:14px;
+        line-height: 22px
+    }
+}
+
+@media(min-width: 1320px) {
+    .header {
+        font-size:16px;
+        line-height: 24px
+    }
+}
+
+@media(min-width: 1720px) {
+    .header {
+        font-size:18px;
+        line-height: 28px
+    }
+}
+
+/* End header */
+
+.main {
+    display: block;
+}
+
+.footer {
+    position: relative;
+    z-index: 1
+}
+
+/**/
+
+.color-black {
+    background-color: #101011;
+    color: rgba(255,255,255,.96);
+}
+
+
+.input_dark-theme {
+    color-scheme: dark;
+    color: rgba(255,255,255,.96);
+    caret-color: rgba(255,255,255,.96);
+    background-color: rgba(139,136,146,.32);
+}

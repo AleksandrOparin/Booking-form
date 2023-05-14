@@ -1,0 +1,121 @@
+.gradient-button {
+    --inset: 4px;
+    --outline-width: 1.5px;
+    --mask-gradient: linear-gradient(#5d0ef5 0 0) content-box, linear-gradient(#a076f6 0 0);
+    --color-hover-gradient-primary-light: radial-gradient( circle at var(--coord-x) var(--coord-y), #5d0ef5 40.62%, #7e3eff 100% );
+    --color-hover-gradient-primary-dark: radial-gradient( circle var(--diameter-highlight) at var(--coord-x) var(--coord-y), #5d0ef5, #321069 40.62%, #321069 100% );
+
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: SansSerif,sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 10px;
+    color: rgba(255,255,255,.96);
+    position: relative;
+    white-space: nowrap;
+    height: min-content;
+}
+
+.gradient-button__border {
+    border-radius: calc(8px + var(--inset));
+    -webkit-mask: var(--mask-gradient);
+    mask: var(--mask-gradient);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude
+}
+
+.gradient-button:hover .gradient-button__border {
+    -webkit-transition: opacity.5s;
+    -o-transition: opacity.5s;
+    transition: opacity.5s;
+    opacity: 1;
+    overflow: hidden
+}
+
+.gradient-button:hover .gradient-button__border:before {
+    background: -o-linear-gradient(45deg,#3c1a70 0%,#5d0ef5 52.08%,#fff 100%);
+    background: linear-gradient(45deg,#3c1a70 0%,#5d0ef5 52.08%,#fff 100%);
+    -webkit-animation: gradient 1.2s ease-out forwards;
+    animation: gradient 1.2s ease-out forwards
+}
+
+.gradient-button:focus-visible .gradient-button__border {
+    opacity: 1
+}
+
+.gradient-button:disabled .gradient-button__border {
+    opacity: 0
+}
+
+.gradient-button__text {
+    display: inline-block
+}
+
+.gradient-button__border {
+    opacity: 0;
+    position: absolute;
+    inset: calc(var(--inset)*-1);
+    z-index: 0;
+    padding: var(--outline-width);
+    overflow: hidden
+}
+
+.gradient-button__border:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--size-square) + var(--inset) + 2px);
+    padding-top: calc(var(--size-square) + var(--inset) + 2px);
+    transform-origin: center center;
+    transform: translate(-50%,-50%)rotate(315deg)
+}
+
+.gradient-button--blue {
+    background: -o-linear-gradient(63.43deg,#3c1a70 0%,rgba(93,14,245,.83));
+    background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
+}
+
+.gradient-button--blue:hover {
+    background: var(--color-hover-gradient-primary-dark)
+}
+
+.gradient-button--blue:active {
+    background: -o-linear-gradient(63.43deg,#3c1a70 0%,rgba(93,14,245,.83));
+    background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
+    transition: .3s;
+    opacity: .8
+}
+
+.gradient-button--blue:disabled {
+    background: -o-linear-gradient(63.43deg,#3c1a70 0%,rgba(93,14,245,.83));
+    background: linear-gradient(26.57deg,#3c1a70 0%,rgba(93,14,245,.83));
+    opacity: .5;
+    cursor: auto
+}
+
+@-webkit-keyframes gradient {
+    0% {
+        transform: translate(-50%,-50%)rotate(0)
+    }
+
+    to {
+        transform: translate(-50%,-50%)rotate(360deg)
+    }
+}
+
+@keyframes gradient {
+    0% {
+        transform: translate(-50%,-50%)rotate(0)
+    }
+
+    to {
+        transform: translate(-50%,-50%)rotate(360deg)
+    }
+}

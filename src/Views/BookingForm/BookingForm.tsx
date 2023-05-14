@@ -1,10 +1,13 @@
 import './BookingForm.css';
 
+import { BookingFormData } from './BookingFormConfig';
 import FormComponent from '../../Components/FormComponent/FormComponent';
 
 const BookingForm = () => {
     return (
-        <FormComponent title='Забронировать переговорную' className={'booking-form'} />
+        <div className="booking-form-container">
+            <FormComponent {...BookingFormData} />
+        </div>
     );
 };
 

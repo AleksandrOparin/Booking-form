@@ -1,13 +1,18 @@
 import './App.css'
-import 'react-datepicker/dist/react-datepicker.css';
 
 import BookingForm from './Views/BookingForm/BookingForm';
 
 function App() {
-    document.body.classList.add('color-black');
-
     return (
-        <BookingForm />
+        <div className="content color-black">
+            <div className="container">
+                <div className="header"></div>
+                <div className="main">
+                    <BookingForm />
+                </div>
+                <div className="footer"></div>
+            </div>
+        </div>
     )
 }
 
